@@ -2,19 +2,25 @@
 
 # selenium-webdriverを取り込む
 require 'selenium-webdriver'
-require 'pry'
+require 'pry-byebug'
 
 # ブラウザの指定(Chrome)
-session = Selenium::WebDriver.for :chrome
+driver = Selenium::WebDriver.for :chrome
 # 10秒待っても読み込まれない場合は、エラーが発生する
-session.manage.timeouts.implicit_wait = 10
+driver.manage.timeouts.implicit_wait = 10
 # ページ遷移する
-session.navigate.to 'https://google.com/'
-# ページのタイトルを出力する
-puts session.title
+driver.navigate.to 'https://www.cityheaven.net/tokyo/A1316/A131603/ultra-galaxy/girlid-38567541'
+# 予約ページへの遷移
+driver.find_element(:id, 'reserve_btn').click
+sleep(3)
+driver.navigate.to(driver.find_element(:id, 'pcreserveiframe').attribute('src'))
+binding.pry
+trs = driver.find_elements(:tag_name, 'tr')
+tr = trs.find { |tr| tr.find_elements(:tag_name, 'td')[0]&.text == '20:00-'}
+binding.pry
 
-# 検索フォームの取得(この場合はname属性で取得している)
-query = session.find_element(:name, 'q')
+trs = driver.find_element(:tag_name, 'tr')
+binding.pry
 # "zenn"を自動入力する
 query.send_keys('zenn')
 
@@ -25,7 +31,7 @@ query.submit
 sleep(5)
 
 # スクリーンショットをして"zenn.png"で保存する(保存される場所は、コード実行箇所)
-if session.save_screenshot('zenn.png')
+if driver.save_screenshot('zenn.png')
   # スクリーンショットができたら出力する
   puts 'スクリーンショットされました！'
 end
