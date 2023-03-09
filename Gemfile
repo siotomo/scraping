@@ -5,4 +5,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.1'
 
+# debug
+gem 'pry'
 gem 'selenium-webdriver', '~> 4.8', '>= 4.8.1'
+
+# lint
+gem 'rubocop', '~> 1.22', require: false
