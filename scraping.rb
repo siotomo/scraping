@@ -14,12 +14,11 @@ driver.navigate.to 'https://www.cityheaven.net/tokyo/A1316/A131603/ultra-galaxy/
 driver.find_element(:id, 'reserve_btn').click
 sleep(3)
 driver.navigate.to(driver.find_element(:id, 'pcreserveiframe').attribute('src'))
-binding.pry
-trs = driver.find_elements(:tag_name, 'tr')
-tr = trs.find { |tr| tr.find_elements(:tag_name, 'td')[0]&.text == '20:00-'}
-binding.pry
 
-trs = driver.find_element(:tag_name, 'tr')
+trs = driver.find_elements(:tag_name, 'tr')
+tr = trs.find { |tr| tr.find_elements(:tag_name, 'th')[0]&.text == '20:00-'}
+tr.find_elements(:tag_name, 'td')[1].click
+
 binding.pry
 # "zenn"を自動入力する
 query.send_keys('zenn')
@@ -35,6 +34,3 @@ if driver.save_screenshot('zenn.png')
   # スクリーンショットができたら出力する
   puts 'スクリーンショットされました！'
 end
-
-# ブラウザを終了
-session.quit
